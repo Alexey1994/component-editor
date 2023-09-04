@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script src="js/events.js"></script>
+	<script src="js/component.js"></script>
+</head>
+<body>
+<script>
+	var SVG = Component({
+		name: 'SVG',
+
+		inputs: [
+
+		],
+
+		outputs: [
+
+		],
+
+		create: function() {
+			this.element = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+			this.parentElement.appendChild(this.element)
+		},
+
+		init: function() {
+			with(this.element.style) {
+				position = 'absolute'
+				left = '0px'
+				top = '0px'
+				width = '100%'
+				height = '100%'
+			}
+		},
+
+		change: {
+
+		},
+
+		destroy: function() {
+			this.parentElement.removeChild(this.element)
+		}
+	})
+
+	var SVG_Path = Component({
+		name: 'SVG_Path',
+
+		inputs: [
+			['x', Number, 0],
+			['y', Number, 0],
+			['fill', String, 'transparent'],
+			['stroke', String, '#000'],
+			['points', Array]
+		],
+
+		outputs: [
+
+		],
+
+		create: function() {
+			this.element = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+			this.parentElement.element.appendChild(this.element)
+		},
+
+		init: function() {
+			
+		},
+
+		change: {
+			points: function(newPoints) {
+				var result = 'M' + this.x + ' ' + this.y
+
+				if(newPoints) {
+					var isFirst = true
+
+					newPoints.forEach(function(point) {
+						if(point == 'L') {
+							result += 'L'
+							isFirst = true
+						}
+						else if(point == 'C') {
+							result += 'C'
+							isFirst = true
+						}
+						else {
+							if(!isFirst) {
+								result += ','
+							}
+
+							result += point[0] + ' ' + point[1]
+
+							isFirst = false
+						}
+					})
+				}
+
+				this.element.setAttribute('d', result)
+			},
+
+			fill: function(newFill) {
+				this.element.setAttribute('fill', newFill)
+			},
+
+			stroke: function(newStroke) {
+				this.element.setAttribute('stroke', newStroke)
+			}
+		},
+
+		destroy: function() {
+			this.parentElement.element.pemoveChild(this.element)
+		}
+	})
+
+	var canvas = SVG(document.body)
+	var path = SVG_Path(canvas)
+
+	path.points = ['C', [100, 0], [100, 200], [200, 200]]
+	console.log(canvas)
+
+	var code = [
+		[]
+	]
+</script>
+</body>
+</html>

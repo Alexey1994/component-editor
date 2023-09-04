@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Component Editor</title>
-    <meta charset="utf-8">
+	<title></title>
 
-    <script src="js/component.js"></script>
-    <script src="js/components.js"></script>
-    <script src="js/editor.js"></script>
-
-    <style>
-        body, html, #pageWrapper
-        {
-            margin:           0;
-            padding:          0;
-            display:          block;
-            height:           100%;
-            background-color: #abc;
-        }
-    </style>
+	<style>
+		body, html {
+			height: 100%;
+			margin: 0;
+		}
+	</style>
 </head>
 <body>
-    <div id="pageWrapper"></div>
+	<script src="js/events.js"></script>
+	<script src="js/component.js"></script>
+	<script src="js/components.js"></script>
+    <script src="js/builder.js"></script>
+	<script src="js/editor.js"></script>
 
-    <script>
-        var page = ComponentEditor(pageWrapper)
-
-        //page.content = data => console.log(data)
-        //page.message = 'get content'
-    </script>
+	<script>
+		var editor = Editor(document.body, {
+			width: window.innerWidth,
+			height: window.innerHeight
+		})
+		var resizeSubscription = subscribe('onresize', function(event) {
+		    editor.width = window.innerWidth
+		    editor.height = window.innerHeight
+		})
+	</script>
 </body>
 </html>
